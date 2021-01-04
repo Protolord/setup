@@ -2,18 +2,45 @@
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# Install lint syntax checkers
+pip install flake8 yamllint
+
 # Copy the text below as .vimrc
 cat > ~/.vimrc << EOF
 " =============== Plugins ==================== "
-" List
+" List "
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
+Plug 'dense-analysis/ale'
+Plug 'tpope/vim-fugitive'
+Plug 'frazrepo/vim-rainbow'
 call plug#end()
 
-" Theme
+" Plugin configurations "
 if !empty(glob('~/.vim/plugged/gruvbox'))
   colorscheme gruvbox
+endif
+
+if !empty(glob('~/.vim/plugged/vim-airline'))
+  let g:airline_powerline_fonts = 1
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#formatter = 'unique_tail'
+  let g:airline#extensions#tabline#tab_nr_type = 2
+  let g:airline#extensions#tabline#tabs_label = ''
+  if !empty(glob('~/.vim/plugged/ale'))
+    let g:airline#extensions#ale#enabled = 1
+  endif
+endif
+
+if !empty(glob('~/.vim/plugged/ale'))
+  let g:ale_echo_msg_format = '[%linter%] %code%: %s'
+  let g:ale_lint_on_enter = 0
+  nmap <silent> <C-e> <Plug>(ale_next_wrap)
+endif
+
+if !empty(glob('~/.vim/plugged/vim-rainbow'))
+  let g:rainbow_active = 1
 endif
 
 " ================  General ================== "
@@ -24,32 +51,43 @@ set tags=tags
 
 
 " ================== UI ====================== "
-" Numbers
+" Numbers "
 set number numberwidth=5
 set showcmd
 set ruler
 set scrolloff=3
 
-" Column line
+" Netrw "
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+
+" Column line "
 set textwidth=100 colorcolumn=+1
 
-" Tab button
+" Folding "
+set foldmethod=indent
+set foldlevel=99
+
+" Tab spacing "
 set autoindent
 set tabstop=4 shiftwidth=4 expandtab
-autocmd FileType yaml,yml setlocal shiftwidth=2 tabstop=2
+autocmd FileType c,cpp,go,python set tabstop=4 softtabstop=4 shiftwidth=4 fileformat=unix
+autocmd FileType css,html,javascript,json,yaml set shiftwidth=2 tabstop=2 fileformat=unix
 
-" Show and trim white space
+" Show and trim white space "
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
-autocmd FileType c,cpp,python,yaml autocmd BufWritePre <buffer> :%s/\s\+$//e
-" Disable auto-comment on next line
+autocmd FileType c,cpp,go,python,yaml autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+" Disable auto-comment on next line "
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" Finding files
+" Finding files "
+set path+=**
 set wildmenu
 set wildmode=list:longest,full
 set showmatch
@@ -58,12 +96,12 @@ set ignorecase
 set smartcase
 
 " ============= Mappings ==================== "
-nnoremap <SPACE> <Nop>
+nnoremap <space> <nop>
 let mapleader = "\<Space>"
-nnoremap <C-K> :cnext<cr>
-nnoremap <C-J> :cprev<cr>
-nnoremap <C-L> gt
-nnoremap <C-H> gT
+nnoremap <C-k> :cnext<cr>
+nnoremap <C-j> :cprev<cr>
+nnoremap <C-l> gt
+nnoremap <C-h> gT
 nnoremap <leader>x :Explore<cr>
 nnoremap <leader>s :mksession! session.vim<cr>
 nnoremap <leader>t :tabnew %<cr>
