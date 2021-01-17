@@ -1,9 +1,10 @@
+# Remove existing plugins and configs
+rm -rf ~/.vim
+rm ~/.vimrc
+
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# Install lint syntax checkers
-pip install flake8 yamllint
 
 # Copy the text below as .vimrc
 cat > ~/.vimrc << EOF
@@ -28,6 +29,7 @@ if !empty(glob('~/.vim/plugged/vim-airline'))
   let g:airline#extensions#tabline#formatter = 'unique_tail'
   let g:airline#extensions#tabline#tab_nr_type = 2
   let g:airline#extensions#tabline#tabs_label = ''
+  let g:airline#extensions#tabline#show_buffers = 0
   if !empty(glob('~/.vim/plugged/ale'))
     let g:airline#extensions#ale#enabled = 1
   endif
@@ -45,6 +47,7 @@ endif
 
 " ================  General ================== "
 set nocompatible
+set backspace=indent,eol,start
 set encoding=utf-8
 set background=dark
 set tags=tags
@@ -108,8 +111,11 @@ nnoremap <leader>t :tabnew %<cr>
 nnoremap <leader>c :setlocal spell spelllang=en_us<cr>
 nnoremap <leader>v :vsplit %<cr>
 nnoremap <leader>h :split %<cr>
+vnoremap <C-c> y : call system("xclip -i -selection clipboard", getreg("\""))<CR>
 EOF
 
 # Install plugins
 vim +'PlugInstall --sync' +qa
 
+# Install xclip
+sudo apt install -y xclip
