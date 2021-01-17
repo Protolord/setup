@@ -1,11 +1,3 @@
-# Install main python 3
-sudo apt update
-sudo apt install -y python3 python3-pip
-sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
-
-# Install python virtual environment
-sudo apt install -y python3-venv
-
 # Add python3 & pip3 as default python & pip
 if ! grep -q "alias python='python3'" ~/.bashrc; then
   echo "alias python='python3'" >> ~/.bashrc
