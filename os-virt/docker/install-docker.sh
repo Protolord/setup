@@ -28,3 +28,20 @@ sudo usermod -aG docker $(whoami)
 
 # Show docker version installed
 docker --version
+
+# Configure to use systemd for the management of the container’s cgroups
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+# Restart docker
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
