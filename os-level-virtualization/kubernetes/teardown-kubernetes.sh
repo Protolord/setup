@@ -1,6 +1,6 @@
 # Clean node
 rm -rf $HOME/.kube
-kubectl drain debian10 --delete-local-data --force --ignore-daemonsets
+kubectl drain debian10 --delete-emptydir-data --force --ignore-daemonsets
 sudo kubeadm reset
 
 # Clean IP tables

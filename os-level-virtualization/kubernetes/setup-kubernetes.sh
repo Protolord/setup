@@ -15,3 +15,5 @@ kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml
 
 # Confirm calico pods are running
 kubectl -n calico-system wait --for='condition=Ready' pods --all
+
+#kubectl taint nodes --all node-role.kubernetes.io/master-

@@ -16,6 +16,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'dense-analysis/ale'
 Plug 'tpope/vim-fugitive'
 Plug 'frazrepo/vim-rainbow'
+Plug 'hashivim/vim-terraform'
 call plug#end()
 
 " Plugin configurations "
