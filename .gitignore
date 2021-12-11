@@ -1,6 +1,10 @@
 # Log files
 *.log
 
+# Vim files
+*.swp
+*.vim
+
 # Terraform
 **/.terraform/*
 **/.terraform.*
