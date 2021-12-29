@@ -7,12 +7,14 @@ if ! grep -q "alias pip='pip3'" ~/.bashrc; then
 fi
 
 # Install syntax checker and code-completion for vim
-plugin_autocomplete="Plug 'davidhalter/jedi-vim'"
 pip3 install flake8
-if ! grep -q "$plugin_autocomplete" ~/.vimrc; then
-  sed -i "s|call plug#end()|$plugin_autocomplete\ncall plug#end()|g" ~/.vimrc || exit
-fi
-vim +'PlugInstall --sync' +qa
+if [[ $(which vim) && -f ~/.vimrc ]]; then
+  plugin_autocomplete="Plug 'davidhalter/jedi-vim'"
+  if ! grep -q "$plugin_autocomplete" ~/.vimrc; then
+    sed -i "s|call plug#end()|$plugin_autocomplete\ncall plug#end()|g" ~/.vimrc || exit
+  fi
+  vim +'PlugInstall --sync' +qa
+fi;
 
 # Reset shell session
 bash

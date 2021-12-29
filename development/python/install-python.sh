@@ -5,3 +5,4 @@ sudo apt install -y build-essential libssl-dev libffi-dev python3-dev
 
 # Install python virtual environment
 sudo apt install -y python3-venv
+pip3 install virtualenv
