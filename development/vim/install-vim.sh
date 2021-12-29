@@ -1,9 +1,11 @@
 # Remove existing vims
-sudo apt remove --purge vim vim-runtime vim-gnome vim-tiny vim-common vim-gui-common
+sudo apt remove -y --purge vim vim-runtime vim-gnome vim-tiny vim-common vim-gui-common
 
 # Delete shared folder and vim binary
 sudo rm -rf /usr/local/share/vim
-sudo rm $(which vim)
+if [[ $(which vim) ]]; then
+  sudo rm $(which vim)
+fi
 
 # Download and build
 vim_src_location="$HOME/.local/src/"
@@ -11,6 +13,8 @@ mkdir -p $vim_src_location
 cd $vim_src_location
 sudo git clone https://github.com/vim/vim
 cd vim/src
+sudo apt update
+sudo apt install -y make build-essential libncurses5-dev python3-dev
 sudo make distclean
 sudo ./configure \
          --with-features=huge \
