@@ -1,10 +1,12 @@
-# Add python3 & pip3 as default python & pip
-if ! grep -q "alias python='python3'" ~/.bashrc; then
-  echo "alias python='python3'" >> ~/.bashrc
-fi
-if ! grep -q "alias pip='pip3'" ~/.bashrc; then
-  echo "alias pip='pip3'" >> ~/.bashrc
-fi
+for item in python3 pip3; do
+  if [[ ! $(which ${item}) ]]; then
+    echo "No ${item} was found on this machine, setup cancelled"
+    exit 1
+  fi
+  if ! grep -q "alias ${item::-1}='${item}'" ~/.bashrc; then
+    echo "alias ${item::-1}='${item}'" >> ~/.bashrc
+  fi
+done
 
 # Install syntax checker and code-completion for vim
 pip3 install flake8

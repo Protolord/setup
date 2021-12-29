@@ -1,11 +1,22 @@
-# Clean node
-rm -rf $HOME/.kube
-kubectl drain debian10 --delete-emptydir-data --force --ignore-daemonsets
+# Check kubernetes binaries
+for item in kubeadm kubelet kubectl; do
+  if [[ ! $(which ${item}) ]]; then
+    echo "No ${item} was found on this machine, teardown cancelled"
+    exit 1
+  fi
+done
+# Get all nodes
+nodes=$(kubectl get nodes --no-headers -o custom-columns=":metadata.name")
+
+# Drain
+for node in ${nodes}; do
+  kubectl drain ${node} --delete-emptydir-data --force --ignore-daemonsets
+done
+
+# Reset
 sudo kubeadm reset
 
-# Clean IP tables
-iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
-ipvsadm -C
-
-# Remove node
-kubectl delete node debian10
+# Delete
+for node in ${nodes}; do
+  kubectl delete node debian10
+done

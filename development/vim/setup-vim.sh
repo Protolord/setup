@@ -1,10 +1,20 @@
+if [[ ! $(which vim) ]]; then
+  echo "No vim was found on this machine, setup cancelled"
+  exit 1
+fi
 # Remove existing plugins and configs
-rm -rf ~/.vim
-rm ~/.vimrc
+if [[ -d ~/.vim ]]; then
+  rm -rf ~/.vim
+fi
+if [[ -f ~/.vimrc ]]; then
+  rm ~/.vimrc
+fi
 
 # Install vim-plug
+sudo apt update
+sudo apt install curl
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Copy the text below as .vimrc
 cat > ~/.vimrc << EOF
@@ -76,7 +86,7 @@ set foldlevel=99
 set autoindent
 set tabstop=4 shiftwidth=4 expandtab
 autocmd FileType c,cpp,go,python set tabstop=4 softtabstop=4 shiftwidth=4 fileformat=unix
-autocmd FileType css,html,javascript,json,yaml set shiftwidth=2 tabstop=2 fileformat=unix
+autocmd FileType css,html,javascript,json,sh,yaml set shiftwidth=2 tabstop=2 fileformat=unix
 
 " Show and trim white space "
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -120,3 +130,6 @@ vim +'PlugInstall --sync' +qa
 
 # Install xclip
 sudo apt install -y xclip
+
+# Make vim the default editor for git
+git config --global core.editor "vim"
