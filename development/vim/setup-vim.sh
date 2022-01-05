@@ -74,6 +74,9 @@ set scrolloff=3
 " Netrw "
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
+let g:netrw_winsize = 20
+let g:netrw_altv = 1
+let g:netrw_list_hide= '.*\.swp$'
 
 " Column line "
 set textwidth=100 colorcolumn=+1
@@ -85,8 +88,10 @@ set foldlevel=99
 " Tab spacing "
 set autoindent
 set tabstop=4 shiftwidth=4 expandtab
-autocmd FileType c,cpp,go,python set tabstop=4 softtabstop=4 shiftwidth=4 fileformat=unix
-autocmd FileType css,html,javascript,json,sh,yaml set shiftwidth=2 tabstop=2 fileformat=unix
+autocmd FileType c,cpp,go,python \
+  set tabstop=4 softtabstop=4 shiftwidth=4 fileformat=unix
+autocmd FileType css,html,javascript,json,sh,typescript,yaml \
+  set shiftwidth=2 tabstop=2 fileformat=unix
 
 " Show and trim white space "
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -95,7 +100,8 @@ autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
-autocmd FileType c,cpp,go,python,yaml autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType c,cpp,go,javascript,python,sh,typescript,yaml \
+  autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " Disable auto-comment on next line "
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -104,6 +110,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 set path+=**
 set wildmenu
 set wildmode=list:longest,full
+set wildignore+=./**/node_modules/**
+set wildignore+=./**/build/**
 set showmatch
 set incsearch
 set ignorecase
@@ -111,18 +119,22 @@ set smartcase
 
 " ============= Mappings ==================== "
 nnoremap <space> <nop>
-let mapleader = "\<Space>"
-nnoremap <C-k> :cnext<cr>
-nnoremap <C-j> :cprev<cr>
-nnoremap <C-l> gt
-nnoremap <C-h> gT
-nnoremap <leader>x :Explore<cr>
-nnoremap <leader>s :mksession! session.vim<cr>
+let mapleader = "\<space>"
+nnoremap <c-k> :cnext<cr>
+nnoremap <c-j> :cprev<cr>
+nnoremap <c-l> gt
+nnoremap <c-h> gT
+nnoremap <c-p> :find<space>
+nnoremap <c-x> :Lexplore<cr>
+vnoremap <c-c> y : call system("xclip -i -selection clipboard", getreg("\""))<cr>
+nnoremap <leader>x :Explore!<cr>
+nnoremap <leader>b :below terminal ++rows=10<cr>
+nnoremap <leader>s :mksession!<cr>
 nnoremap <leader>t :tabnew %<cr>
-nnoremap <leader>c :setlocal spell spelllang=en_us<cr>
-nnoremap <leader>v :vsplit %<cr>
-nnoremap <leader>h :split %<cr>
-vnoremap <C-c> y : call system("xclip -i -selection clipboard", getreg("\""))<CR>
+nnoremap <leader>l :setlocal spell spelllang=en_us<cr>
+nnoremap <leader>v :vsplit<cr>
+nnoremap <leader>h :split<cr>
+nnoremap <leader>f :vimgrep // ./**/*<left><left><left><left><left><left><left><left>
 EOF
 
 # Install plugins
