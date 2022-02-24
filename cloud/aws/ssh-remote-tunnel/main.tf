@@ -50,8 +50,8 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-resource "aws_security_group" "allow_ssh_and_customport" {
-  name        = "allow_ssh_and_customport"
+resource "aws_security_group" "allow-ssh-and-customport" {
+  name        = "allow-ssh-and-customport"
   description = "security group of ${var.name}"
   vpc_id      = aws_vpc.main.id
 
@@ -78,7 +78,7 @@ resource "aws_security_group" "allow_ssh_and_customport" {
   }
 
   tags = {
-    Name = "allow_ssh_and_customport"
+    Name = "${var.name}_allow-ssh-and-customport"
   }
 }
 
@@ -87,7 +87,7 @@ resource "aws_key_pair" "key" {
   public_key = var.public_key
 }
 
-resource "aws_instance" "reverse-proxy" {
+resource "aws_instance" "ec2-tunnel" {
   ami               = "ami-0dc5785603ad4ff54"
   instance_type     = "t2.micro"
   availability_zone = var.availability_zone
@@ -96,14 +96,14 @@ resource "aws_instance" "reverse-proxy" {
 
   associate_public_ip_address = true
 
-  vpc_security_group_ids = [aws_security_group.allow_ssh_and_customport.id]
+  vpc_security_group_ids = [aws_security_group.allow-ssh-and-customport.id]
   subnet_id              = aws_subnet.public.id
 
   tags = {
-    Name = "${var.name}-ec2"
+    Name = "${var.name}_ec2"
   }
 }
 
 output "ec2_global_ip" {
-  value = aws_instance.reverse-proxy.public_ip
+  value = aws_instance.ec2-tunnel.public_ip
 }
