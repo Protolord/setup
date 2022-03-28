@@ -19,3 +19,7 @@ kubelet --version
 if ! grep -q "source <(kubectl completion bash)" ~/.bashrc; then
   echo "source <(kubectl completion bash)" >>~/.bashrc
 fi
+# Use vim as default editor
+if ! grep -q "export KUBE_EDITOR=vim" ~/.bashrc; then
+  echo "export KUBE_EDITOR=vim" >>~/.bashrc
+fi
