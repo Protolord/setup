@@ -11,3 +11,6 @@
 *.tfstate
 *.tfstate.*
 *.tfvars
+
+# Downloaded Helm Charts
+helm/demo/mysql/**/*
