@@ -1,0 +1,7 @@
+---
+version: "3.5"
+services:
+  python:
+    image: jupyter/base-notebook:python-3.9.10
+    ports:
+      - 8888:8888
