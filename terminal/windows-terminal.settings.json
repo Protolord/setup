@@ -45,7 +45,6 @@
     "copyFormatting": "none",
     "copyOnSelect": true,
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-    "initialRows": 40,
     "launchMode": "default",
     "profiles":
     {
@@ -73,6 +72,10 @@
             },
             {
                 "commandline": "ssh kubuntu",
+                "font":
+                {
+                    "size": 11
+                },
                 "guid": "{4bbfc005-8f3d-4893-854d-cb149782d138}",
                 "hidden": false,
                 "historySize": 9999,
