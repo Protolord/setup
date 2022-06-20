@@ -9,6 +9,10 @@ done
 # Turn off swap
 sudo swapoff -a
 
+# Do not disable CRI
+sudo rm /etc/containerd/config.toml
+sudo systemctl restart containerd
+
 # Initialize cluster master
 read -p "Enter cluster CIDR (default: 192.168.0.0/16): " cidr
 if [[ ${cidr} == "" ]]; then
@@ -41,4 +45,5 @@ kubectl -n calico-system wait --for='condition=Ready' pods --all
 read -p "Untaint master node (y/n)?" is_tainted
 if [[ $is_tainted == "y" || $is_tainted == "Y" ]]; then
   kubectl taint nodes --all node-role.kubernetes.io/master-
+  kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 fi
