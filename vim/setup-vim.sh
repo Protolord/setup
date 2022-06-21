@@ -120,6 +120,7 @@ set smartcase
 " ============= Mappings ==================== "
 nnoremap <space> <nop>
 let mapleader = "\<space>"
+inoremap kj <esc>
 nnoremap <c-k> :cnext<cr>
 nnoremap <c-j> :cprev<cr>
 nnoremap <c-l> gt
