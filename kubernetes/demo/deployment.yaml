@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deploy
+spec:
+  selector:
+    matchLabels:
+      app: php-server
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: php-server
+    spec:
+      containers:
+        - name: php-server
+          image: php:7.4-apache
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: src
+      volumes:
+        - name: src
+          hostPath:
+            type: Directory
+            path: /home/karl/repo/setup-environment/kubernetes/demo/html
