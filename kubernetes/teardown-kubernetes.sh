@@ -18,5 +18,5 @@ sudo kubeadm reset
 
 # Delete
 for node in ${nodes}; do
-  kubectl delete node debian10
+  kubectl delete node ${node}
 done
