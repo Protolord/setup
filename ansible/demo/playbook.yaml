@@ -1,0 +1,8 @@
+- name: Install httpd, git and vim
+  hosts: all
+  roles:
+    - role: httpd
+      become: yes
+    - role: git
+      become: yes
+    - role: vim

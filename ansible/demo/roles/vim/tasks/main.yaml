@@ -1,0 +1,20 @@
+- name: Install vim
+  become: yes
+  package:
+    name: vim
+    state: present
+
+- name: Clone git repo containing vim setup script
+  git:
+    repo: "{{ secret_repo }}"
+    dest: "~/setup-environment"
+    force: yes
+
+- name: Remove lines from script containing "apt"
+  lineinfile:
+    dest: "~/setup-environment/vim/setup-vim.sh"
+    state: absent
+    regexp: "apt"
+
+- name: Run the setup script
+  shell: "~/setup-environment/vim/setup-vim.sh"
