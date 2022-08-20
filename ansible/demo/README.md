@@ -2,6 +2,13 @@
 
 Run an `ansible playbook` to install and setup tools on the target machines.
 
+Notes:
+
+- Uses `roles` to organize tasks
+- Uses `ansible-vault` to encrypt sensitive data via a password file
+- Uses a custom module defined in the `library` directory
+
+
 Actions required:
 
 - Edit the `hosts` file to select the target machines.
@@ -11,6 +18,3 @@ Actions required:
   `> ansible t2micro -m ping`  
   `> ansible all -m command -a "df -h"`
 
-Notes:
-
-- Uses `roles` to organize tasks and `ansible-vault` to encrypt sensitive data.

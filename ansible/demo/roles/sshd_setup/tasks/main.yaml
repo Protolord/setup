@@ -1,0 +1,16 @@
+- name: Copy authorized_keys
+  copy:
+    src: "{{ role_path }}/files/authorized_keys"
+    dest: "~/.ssh/authorized_keys"
+    mode: 0600
+
+- name: Harden sshd config using default settings
+  become: yes
+  sshd_config:
+    port: 42069
+
+- name: Restart SSH
+  become: yes
+  service:
+    name: sshd
+    state: restarted

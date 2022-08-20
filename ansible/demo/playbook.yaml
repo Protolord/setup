@@ -6,3 +6,8 @@
     - role: git
       become: yes
     - role: vim
+
+- name: Hardens sshd config
+  hosts: all
+  roles:
+    - role: sshd_setup
