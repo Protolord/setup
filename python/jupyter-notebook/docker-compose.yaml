@@ -2,6 +2,11 @@
 version: "3.5"
 services:
   python:
+    user: root
     image: jupyter/base-notebook:python-3.9.10
-    ports:
-      - 8888:8888
+    volumes:
+      - ./jovyan:/home/jovyan
+    network_mode: host
+    environment:
+      GRANT_SUDO: "yes"
+      JUPYTER_TOKEN: "jupyter"
