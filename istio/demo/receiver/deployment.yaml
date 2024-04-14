@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receiver-deploy
+  namespace: istio-demo-rx
+spec:
+  selector:
+    matchLabels:
+      app: receiver-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: receiver-app
+    spec:
+      containers:
+        - name: receiver-app
+          image: ${RECEIVER_IMAGE}
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: dockerhub-secret
